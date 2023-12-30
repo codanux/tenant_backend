@@ -11,6 +11,19 @@ export class User {
   @Column()
   username: string;
 
+  @Column()
+  firebase_id: string;
+
   @Column({ default: true })
-  isActive: boolean;
+  is_active: boolean;
+
+  @Column()
+  created_at: Date;
+
+  @Column()
+  updated_at: Date;
+
+  @Column({ nullable: true })
+  deleted_at: Date;
+  
 }
