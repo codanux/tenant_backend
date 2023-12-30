@@ -2,13 +2,22 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, Query, DefaultValueP
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ConflictException } from '@nestjs/common';
 
+@ApiTags('users')
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
+    const { email } = createUserDto;
+    const user = this.usersService.findOneByEmail(email);
+    if (user) {
+      throw new ConflictException('Email already exists');
+    }
+
     return this.usersService.create(createUserDto);
   }
 

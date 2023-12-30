@@ -20,10 +20,15 @@ export class UsersService {
     return this.usersRepository.findOneBy({ id });
   }
 
+  findOneByEmail(email: string): Promise<User | null> {
+    return this.usersRepository.findOneBy({ email });
+  }
+
   create(createUserDto: CreateUserDto): Promise<User> {
     const user = new User();
     user.email = createUserDto.email;
     user.username = createUserDto.username;
+    user.firebase_id = createUserDto.firebase_id;
     user.is_active = createUserDto.is_active;
     user.created_at = new Date();
     user.updated_at = new Date();
@@ -33,7 +38,6 @@ export class UsersService {
 
   async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
     const user = await this.usersRepository.findOneBy({ id });
-    user.email = updateUserDto.email;
     user.username = updateUserDto.username;
     user.is_active = updateUserDto.is_active;
     user.updated_at = new Date();
