@@ -8,7 +8,7 @@ import { ApiTags } from '@nestjs/swagger';
 export class AuthController {
   constructor(private authService: AuthService) {}
 
-  
+  @HttpCode(HttpStatus.OK)
   @Post('login')
   signIn(@Body() SignInDto: SignInDto) {
     return this.authService.signIn(SignInDto.email, SignInDto.password);

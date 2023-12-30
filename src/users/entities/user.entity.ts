@@ -1,3 +1,4 @@
+import { Role } from 'src/auth/auth.decorator';
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
@@ -14,6 +15,9 @@ export class User {
   @Column()
   password: string;
 
+  @Column({ type: 'enum', enum: Role, default: Role.User })
+  role: Role;
+
   @Column()
   created_at: Date;
 
@@ -21,6 +25,5 @@ export class User {
   updated_at: Date;
 
   @Column({ nullable: true })
-  deleted_at: Date;
-  
+  deleted_at: Date;  
 }

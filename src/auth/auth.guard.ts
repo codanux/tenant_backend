@@ -8,24 +8,24 @@ import { JwtService } from '@nestjs/jwt';
 import { jwtConstants } from './constants';
 import { Request } from 'express';
 import { Reflector } from '@nestjs/core';
-import { SetMetadata } from '@nestjs/common';
-export const IS_PUBLIC_KEY = 'isPublic';
-export const Public = () => SetMetadata(IS_PUBLIC_KEY, true);
+import { ROLES_KEY, Role } from './auth.decorator';
+import { UsersService } from 'src/users/users.service';
+
   
 
   @Injectable()
   export class AuthGuard implements CanActivate {
-    constructor(private jwtService: JwtService, private reflector: Reflector) {}
+    constructor(private jwtService: JwtService, private reflector: Reflector, private usersService: UsersService) {}
   
     async canActivate(context: ExecutionContext): Promise<boolean> {
-      const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
+      
+      const requiredRoles = this.reflector.getAllAndOverride<Role[]>(ROLES_KEY, [
         context.getHandler(),
         context.getClass(),
       ]);
-      if (isPublic) {
-        return true;
-      }
 
+      if (requiredRoles == undefined) return true; 
+      
       const request = context.switchToHttp().getRequest();
       const token = this.extractTokenFromHeader(request);
       if (!token) {
@@ -42,6 +42,13 @@ export const Public = () => SetMetadata(IS_PUBLIC_KEY, true);
       } catch {
         throw new UnauthorizedException();
       }
+
+      if (requiredRoles.length) {
+        const user_id = request['user'].id;
+        const user = await this.usersService.findOne(user_id);
+        return requiredRoles.some((role) => user.role === role);
+      }
+      
       return true;
     }
   

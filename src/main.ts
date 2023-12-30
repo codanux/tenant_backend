@@ -8,13 +8,15 @@ async function bootstrap() {
   
   app.useGlobalPipes(new ValidationPipe());
 
-  
   const config = new DocumentBuilder()
     .setTitle('Market')
     .setDescription('market api')
     .setVersion('1.0')
+    .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, config);
+
+  
   SwaggerModule.setup('swagger', app, document);
   
   await app.listen(3000);

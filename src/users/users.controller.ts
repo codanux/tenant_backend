@@ -4,12 +4,14 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { ConflictException } from '@nestjs/common';
+import { Auth, Role } from 'src/auth/auth.decorator';
 
 @ApiTags('users')
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
+  @Auth(Role.Admin)
   @Get()
   findAll() {
     return this.usersService.findAll();
