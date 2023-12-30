@@ -21,9 +21,10 @@ export class UsersController {
   }
 
   @Post()
-  create(@Body() createUserDto: CreateUserDto) {
+  async create(@Body() createUserDto: CreateUserDto) {
     const { email } = createUserDto;
-    const user = this.usersService.findOneByEmail(email);
+    const user = await this.usersService.findOneByEmail(email);
+    console.log(user);
     if (user) {
       throw new ConflictException('Email already exists');
     }

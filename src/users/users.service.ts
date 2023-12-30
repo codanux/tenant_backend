@@ -4,6 +4,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsersService {
@@ -28,9 +29,13 @@ export class UsersService {
     const user = new User();
     user.email = createUserDto.email;
     user.username = createUserDto.username;
-    user.password = createUserDto.password;
+
+    const saltRounds = 10;
+    const hashedPassword = bcrypt.hashSync(createUserDto.password, saltRounds);
+    user.password = hashedPassword;
     user.created_at = new Date();
     user.updated_at = new Date();
+
 
     return this.usersRepository.save(user);
   }
