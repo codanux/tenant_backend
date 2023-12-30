@@ -28,8 +28,7 @@ export class UsersService {
     const user = new User();
     user.email = createUserDto.email;
     user.username = createUserDto.username;
-    user.firebase_id = createUserDto.firebase_id;
-    user.is_active = createUserDto.is_active;
+    user.password = createUserDto.password;
     user.created_at = new Date();
     user.updated_at = new Date();
 
@@ -39,7 +38,6 @@ export class UsersService {
   async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
     const user = await this.usersRepository.findOneBy({ id });
     user.username = updateUserDto.username;
-    user.is_active = updateUserDto.is_active;
     user.updated_at = new Date();
 
     return this.usersRepository.save(user);

@@ -1,5 +1,4 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
-import { ApiProperty } from '@nestjs/swagger';
 
 @Entity()
 export class User {
@@ -7,18 +6,13 @@ export class User {
   id: number;
 
   @Column({ unique: true })
-  email: string;
-  
-
-  @ApiProperty({ example: 'codanux', description: 'username bro' })
-  @Column()
   username: string;
 
-  @Column()
-  firebase_id: string;
+  @Column({ unique: true })
+  email: string;
 
-  @Column({ default: true })
-  is_active: boolean;
+  @Column()
+  password: string;
 
   @Column()
   created_at: Date;
