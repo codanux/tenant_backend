@@ -15,21 +15,20 @@ export class UsersController {
     return this.usersService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id', ParseIntPipe) id: string) {
-    return this.usersService.findOne(+id);
-  }
-
   @Post()
   async create(@Body() createUserDto: CreateUserDto) {
     const { email } = createUserDto;
     const user = await this.usersService.findOneByEmail(email);
-    console.log(user);
     if (user) {
       throw new ConflictException('Email already exists');
     }
 
     return this.usersService.create(createUserDto);
+  }
+
+  @Get(':id')
+  findOne(@Param('id', ParseIntPipe) id: string) {
+    return this.usersService.findOne(+id);
   }
 
   @Patch(':id')

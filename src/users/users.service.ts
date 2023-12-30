@@ -36,7 +36,6 @@ export class UsersService {
     user.created_at = new Date();
     user.updated_at = new Date();
 
-
     return this.usersRepository.save(user);
   }
 
