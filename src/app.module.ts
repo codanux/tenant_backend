@@ -7,6 +7,8 @@ import { DataSource } from 'typeorm';
 import { AuthModule } from './auth/auth.module';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from './auth/auth.guard';
+import { CacheModule } from '@nestjs/cache-manager';
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 
 @Module({
   imports: [
@@ -20,6 +22,11 @@ import { AuthGuard } from './auth/auth.guard';
       autoLoadEntities: true,
       synchronize: true,
     }),
+    CacheModule.register(),
+    ThrottlerModule.forRoot([{
+      ttl: 60000,
+      limit: 100,
+    }]),
     UsersModule,
     AuthModule
   ],
@@ -29,6 +36,10 @@ import { AuthGuard } from './auth/auth.guard';
     {
       provide: APP_GUARD,
       useClass: AuthGuard
+    },
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard
     }
   ],
 })
