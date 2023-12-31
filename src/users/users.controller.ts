@@ -11,12 +11,13 @@ import { Auth, Role } from 'src/auth/auth.decorator';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Auth()
+  @Auth(Role.Admin)
   @Get()
   findAll() {
     return this.usersService.findAll();
   }
 
+  @Auth(Role.Admin)
   @Post()
   async create(@Body() createUserDto: CreateUserDto) {
     const { email } = createUserDto;
@@ -28,19 +29,19 @@ export class UsersController {
     return this.usersService.create(createUserDto);
   }
 
-  @Auth()
+  @Auth(Role.Admin)
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: string) {
     return this.usersService.findOne(+id);
   }
 
-  @Auth()
+  @Auth(Role.Admin)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.update(+id, updateUserDto);
   }
 
-  @Auth()
+  @Auth(Role.Admin)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.usersService.remove(+id);

@@ -25,4 +25,12 @@ export class AuthService {
       access_token: await this.jwtService.signAsync(payload),
     };
   }
+
+  async signUp(user: any): Promise<any> {
+    return await this.usersService.create(user);
+  }
+  
+  async update(id: number, user: any): Promise<any> {
+    return await this.usersService.update(id, user);
+  }
 }

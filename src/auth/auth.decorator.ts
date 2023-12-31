@@ -9,7 +9,6 @@ export enum Role {
 
 export const ROLES_KEY = 'roles';
 export const Auth = (...roles: Role[]) => {
-
   return applyDecorators(
     ApiBearerAuth(),
     SetMetadata(ROLES_KEY, roles),
