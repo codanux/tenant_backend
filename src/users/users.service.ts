@@ -21,8 +21,8 @@ export class UsersService {
     return this.usersRepository.findOneBy({ id });
   }
 
-  findOneByEmail(email: string): Promise<User | null> {
-    return this.usersRepository.findOneBy({ email });
+  findOneByEmail(email: string, select?: (keyof User)[]): Promise<User | null> {
+    return this.usersRepository.findOneOrFail({ where: { email }, select });
   }
 
   create(createUserDto: CreateUserDto): Promise<User> {

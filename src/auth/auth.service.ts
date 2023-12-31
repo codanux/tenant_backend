@@ -8,7 +8,7 @@ export class AuthService {
   constructor(private usersService: UsersService, private jwtService: JwtService) {}
 
   async signIn(email: string, password: string): Promise<any> {
-    const user = await this.usersService.findOneByEmail(email);
+    const user = await this.usersService.findOneByEmail(email, ['id', 'email', 'password']);
 
     if (!user) {
       throw new UnauthorizedException();

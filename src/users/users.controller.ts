@@ -11,7 +11,7 @@ import { Auth, Role } from 'src/auth/auth.decorator';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Auth(Role.Admin)
+  @Auth()
   @Get()
   findAll() {
     return this.usersService.findAll();
@@ -28,16 +28,19 @@ export class UsersController {
     return this.usersService.create(createUserDto);
   }
 
+  @Auth()
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: string) {
     return this.usersService.findOne(+id);
   }
 
+  @Auth()
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.update(+id, updateUserDto);
   }
 
+  @Auth()
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.usersService.remove(+id);
