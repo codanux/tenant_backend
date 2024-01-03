@@ -13,22 +13,11 @@ export class ProductsService {
     private productsRepository: Repository<Product>,
   ) {}
 
-  create(createProductDto: CreateProductDto) {
-    const product = new Product();
-    product.name = createProductDto.name;
-    product.description = createProductDto.description;
-    product.price = createProductDto.price;
-    product.stock = createProductDto.stock;
-    product.status = createProductDto.status;
-    product.created_at = new Date();
-    product.updated_at = new Date();
-    return this.productsRepository.save(product);
-  }
-
   async findAll(page: number = 1, limit: number = 10) {
     const [rows, total_count] = await this.productsRepository.findAndCount({
       skip: (page - 1) * limit,
       take: limit,
+      order: { id: 'DESC' },
     });
     return { rows , total_count}
   }
@@ -37,11 +26,27 @@ export class ProductsService {
     return `This action returns a #${id} product`;
   }
 
-  update(id: number, updateProductDto: UpdateProductDto) {
-    return `This action updates a #${id} product`;
+  create(createProductDto: CreateProductDto) {
+    const product = new Product();
+    product.name = createProductDto.name;
+    product.description = createProductDto.description;
+    product.price = createProductDto.price;
+    product.stock = createProductDto.stock;
+    product.status = createProductDto.status;
+    return this.productsRepository.save(product);
+  }
+
+  async update(id: number, updateProductDto: UpdateProductDto) {
+    const product = await this.productsRepository.findOne({ where: { id } });
+    product.name = updateProductDto.name;
+    product.description = updateProductDto.description;
+    product.price = updateProductDto.price;
+    product.stock = updateProductDto.stock;
+    product.status = updateProductDto.status;
+    return this.productsRepository.save(product);
   }
 
   remove(id: number) {
-    return `This action removes a #${id} product`;
+    return this.productsRepository.softDelete(id);
   }
 }
