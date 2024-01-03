@@ -14,7 +14,8 @@ export class ProductsService {
   ) {}
 
   create(createProductDto: CreateProductDto) {
-    return 'This action adds a new product';
+    const product = this.productsRepository.create(createProductDto);
+    return this.productsRepository.save(product);
   }
 
   async findAll(page: number = 1, limit: number = 10) {
