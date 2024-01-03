@@ -15,10 +15,8 @@ export class ProductsController {
   }
 
   @Get()
-  findAll() {
-    const rows = this.productsService.findAll();
-    const total_count = rows.length;
-    return { rows, total_count };
+  findAll(page: number = 1, limit: number = 10) {
+    return this.productsService.findAll(page, limit);
   }
 
   @Get(':id')

@@ -1,28 +1,28 @@
 import { Injectable } from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
-
-const rows = [
-  {
-    id: 1,
-    name: 'Product 1',
-    price: 100,
-  },
-  {
-    id: 2,
-    name: 'Product 2',
-    price: 200,
-  },
-];
+import { Product } from './entities/product.entity';
+import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class ProductsService {
+
+  constructor(
+    @InjectRepository(Product)
+    private productsRepository: Repository<Product>,
+  ) {}
+
   create(createProductDto: CreateProductDto) {
     return 'This action adds a new product';
   }
 
-  findAll() {
-    return rows;
+  async findAll(page: number = 1, limit: number = 10) {
+    const [rows, total_count] = await this.productsRepository.findAndCount({
+      skip: (page - 1) * limit,
+      take: limit,
+    });
+    return { rows , total_count}
   }
 
   findOne(id: number) {

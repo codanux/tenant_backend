@@ -1,4 +1,3 @@
-import { Role } from 'src/auth/auth.decorator';
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
@@ -9,7 +8,7 @@ export class Product {
   @Column({ length: 500 })
   name: string;
 
-  @Column('text')
+  @Column('text', { nullable: true })
   description: string;
 
   @Column()
