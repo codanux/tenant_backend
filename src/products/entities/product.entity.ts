@@ -2,24 +2,24 @@ import { Role } from 'src/auth/auth.decorator';
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
-export class User {
+export class Product {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ unique: true })
-  username: string;
+  @Column({ length: 500 })
+  name: string;
 
-  @Column({ unique: true })
-  email: string;
-
-  @Column({ select: false })
-  password: string;
-
-  @Column({ type: 'enum', enum: Role, default: Role.User })
-  role: Role;
+  @Column('text')
+  description: string;
 
   @Column()
-  ip: string;
+  price: number;
+
+  @Column()
+  stock: number;
+
+  @Column()
+  status: boolean;
 
   @Column()
   created_at: Date;

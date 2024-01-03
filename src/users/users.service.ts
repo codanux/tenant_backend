@@ -33,6 +33,7 @@ export class UsersService {
     const saltRounds = 10;
     const hashedPassword = bcrypt.hashSync(createUserDto.password, saltRounds);
     user.password = hashedPassword;
+    
     user.created_at = new Date();
     user.updated_at = new Date();
 
@@ -43,7 +44,6 @@ export class UsersService {
     const user = await this.usersRepository.findOneBy({ id });
     user.username = updateUserDto.username;
     user.updated_at = new Date();
-
     return this.usersRepository.save(user);
   }
 
