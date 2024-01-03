@@ -1,27 +1,32 @@
-import { IsIBAN, IsNotEmpty } from 'class-validator';
+import {  IsDecimal, IsInt, IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+import { Transform } from 'class-transformer';
 
 export class CreateProductDto {
 
     @ApiProperty()
     @IsNotEmpty()
-    
-    readonly name: string;
+    @IsString()
+    name: string;
+
+    @ApiProperty()
+    @IsString()
+    @IsOptional()
+    description: string;
 
     @ApiProperty()
     @IsNotEmpty()
-    readonly description: string;
+    @IsDecimal()
+    price: number;
 
     @ApiProperty()
     @IsNotEmpty()
-    readonly price: number;
+    @IsInt()
+    @Transform(({ value }) => parseInt(value))
+    stock: number;
 
     @ApiProperty()
     @IsNotEmpty()
-    readonly stock: number;
-
-    @ApiProperty()
-    @IsNotEmpty()
-    readonly status: boolean;
+    status: boolean;
 
 }

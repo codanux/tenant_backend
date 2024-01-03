@@ -14,7 +14,14 @@ export class ProductsService {
   ) {}
 
   create(createProductDto: CreateProductDto) {
-    const product = this.productsRepository.create(createProductDto);
+    const product = new Product();
+    product.name = createProductDto.name;
+    product.description = createProductDto.description;
+    product.price = createProductDto.price;
+    product.stock = createProductDto.stock;
+    product.status = createProductDto.status;
+    product.created_at = new Date();
+    product.updated_at = new Date();
     return this.productsRepository.save(product);
   }
 
