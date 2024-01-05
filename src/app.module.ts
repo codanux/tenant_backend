@@ -10,6 +10,7 @@ import { AuthGuard } from './auth/auth.guard';
 import { CacheModule } from '@nestjs/cache-manager';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { ProductsModule } from './products/products.module';
+import { CompaniesModule } from './companies/companies.module';
 
 @Module({
   imports: [
@@ -30,7 +31,8 @@ import { ProductsModule } from './products/products.module';
     }]),
     UsersModule,
     AuthModule,
-    ProductsModule
+    ProductsModule,
+    CompaniesModule
   ],
   controllers: [AppController],
   providers: [
@@ -42,7 +44,7 @@ import { ProductsModule } from './products/products.module';
     {
       provide: APP_GUARD,
       useClass: ThrottlerGuard
-    }
+    },
   ],
 })
 
