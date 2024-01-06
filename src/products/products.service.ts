@@ -30,7 +30,6 @@ export class ProductsService {
     const product = new Product();
     product.name = createProductDto.name;
     product.description = createProductDto.description;
-    product.price = createProductDto.price;
     product.stock = createProductDto.stock;
     product.status = createProductDto.status;
     return this.productsRepository.save(product);
@@ -40,7 +39,6 @@ export class ProductsService {
     const product = await this.productsRepository.findOne({ where: { id } });
     product.name = updateProductDto.name;
     product.description = updateProductDto.description;
-    product.price = updateProductDto.price;
     product.stock = updateProductDto.stock;
     product.status = updateProductDto.status;
     return this.productsRepository.save(product);

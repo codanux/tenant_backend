@@ -1,11 +1,7 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, ManyToOne } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, ManyToOne, OneToOne, JoinColumn } from 'typeorm';
 import { Order } from './order.entity';
-
-enum Coin {
-  USD = 'usd',
-  BTC = 'btc',
-  ETH = 'eth',
-}
+import { Product } from 'src/products/entities/product.entity';
+import { ProductPrice, Coin } from 'src/products/entities/product_price.entity';
 
 @Entity()
 export class OrderProduct {
@@ -21,8 +17,12 @@ export class OrderProduct {
   @Column()
   status: boolean;
 
-  @ManyToOne(() => Order, order => order.order_products, {})
+  @ManyToOne(() => Order, order => order.order_products)
   order: Order;
+
+  @OneToOne(() => Product)
+  @JoinColumn()
+  product: Product;
 
   @CreateDateColumn()
   created_at: Date;

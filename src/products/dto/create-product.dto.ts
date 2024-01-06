@@ -16,8 +16,7 @@ export class CreateProductDto {
 
     @ApiProperty()
     @IsNotEmpty()
-    @IsDecimal()
-    price: number;
+    image: string;
 
     @ApiProperty()
     @IsNotEmpty()

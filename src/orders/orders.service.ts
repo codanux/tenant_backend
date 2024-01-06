@@ -19,7 +19,7 @@ export class OrdersService {
 
   async findAll(page: number = 1, limit: number = 10) {
     const [rows, total_count] = await this.ordersRepository.findAndCount({
-      relations: ['order_products'],
+      relations: ['order_products', 'order_products.product'],
       skip: (page - 1) * limit,
       take: limit,
       order: { id: 'DESC' },
