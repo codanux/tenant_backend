@@ -12,12 +12,6 @@ export class OrderProduct {
   @PrimaryGeneratedColumn()
   id: number;
   
-  @Column()
-  order_id: number;
-
-  @Column()
-  product_id: number;
-
   @Column({ type: 'enum', enum: Coin, default: Coin.USD })
   coin: Coin;
 
@@ -27,7 +21,7 @@ export class OrderProduct {
   @Column()
   status: boolean;
 
-  @ManyToOne(() => Order, order => order.order_products)
+  @ManyToOne(() => Order, order => order.order_products, {})
   order: Order;
 
   @CreateDateColumn()
