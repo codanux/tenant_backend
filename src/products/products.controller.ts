@@ -3,7 +3,9 @@ import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { Auth } from 'src/auth/auth.decorator';
 
+@Auth()
 @ApiTags('products')
 @Controller('products')
 export class ProductsController {

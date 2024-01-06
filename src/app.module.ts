@@ -11,6 +11,7 @@ import { CacheModule } from '@nestjs/cache-manager';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { ProductsModule } from './products/products.module';
 import { CompaniesModule } from './companies/companies.module';
+import { OrdersModule } from './orders/orders.module';
 
 @Module({
   imports: [
@@ -32,7 +33,8 @@ import { CompaniesModule } from './companies/companies.module';
     UsersModule,
     AuthModule,
     ProductsModule,
-    CompaniesModule
+    CompaniesModule,
+    OrdersModule
   ],
   controllers: [AppController],
   providers: [
