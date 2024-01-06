@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { Product } from './entities/product.entity';
+import { Coin, ProductPrice } from './entities/product_price.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 
@@ -18,6 +19,7 @@ export class ProductsService {
       skip: (page - 1) * limit,
       take: limit,
       order: { id: 'DESC' },
+      relations: ['prices'],
     });
     return { rows , total_count}
   }
@@ -41,6 +43,7 @@ export class ProductsService {
     product.description = updateProductDto.description;
     product.stock = updateProductDto.stock;
     product.status = updateProductDto.status;
+    product.prices = updateProductDto.prices
     return this.productsRepository.save(product);
   }
 

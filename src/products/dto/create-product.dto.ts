@@ -1,6 +1,7 @@
-import {  IsDecimal, IsInt, IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
+import {  IsArray, IsDecimal, IsInt, IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-import { Transform } from 'class-transformer';
+import { Transform, Type } from 'class-transformer';
+import { ProductPrice } from '../entities/product_price.entity';
 
 export class CreateProductDto {
 
@@ -15,7 +16,7 @@ export class CreateProductDto {
     description: string;
 
     @ApiProperty()
-    @IsNotEmpty()
+    @IsOptional()
     image: string;
 
     @ApiProperty()
@@ -27,5 +28,12 @@ export class CreateProductDto {
     @ApiProperty()
     @IsNotEmpty()
     status: boolean;
+
+    
+    // ProductPrice array
+    @ApiProperty()
+    @IsArray()
+    @Type(() => ProductPrice)
+    prices: ProductPrice[];
 
 }

@@ -21,8 +21,8 @@ export class Product {
   @Column()
   status: boolean;
 
-  @OneToMany(() => ProductPrice, product_price => product_price.product)
-  product_prices: ProductPrice[];
+  @OneToMany(() => ProductPrice, productPrice => productPrice.product, { cascade: true })
+  prices: ProductPrice[];
 
   @CreateDateColumn()
   created_at: Date;

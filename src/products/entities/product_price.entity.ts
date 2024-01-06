@@ -19,7 +19,7 @@ export class ProductPrice {
   @Column('decimal', { precision: 30, scale: 18 })
   price: number;
 
-  @ManyToOne(() => Product, product => product.product_prices)
+  @ManyToOne(() => Product, product => product.prices)
   product: Product;
 
   @CreateDateColumn()
