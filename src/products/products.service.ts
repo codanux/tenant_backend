@@ -20,6 +20,18 @@ export class ProductsService {
       take: limit,
       order: { id: 'DESC' },
       relations: ['prices'],
+      select: {
+        id: true,
+        name: true,
+        description: true,
+        stock: true,
+        status: true,
+        prices: {
+          id: true,
+          price: true,
+          coin: true,
+        },
+      }
     });
     return { rows , total_count}
   }
