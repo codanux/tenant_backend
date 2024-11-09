@@ -1,55 +1,27 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UsersModule } from './users/users.module';
-import{ TypeOrmModule } from '@nestjs/typeorm';
-import { DataSource } from 'typeorm';
-import { AuthModule } from './auth/auth.module';
-import { APP_GUARD } from '@nestjs/core';
-import { AuthGuard } from './auth/auth.guard';
-import { CacheModule } from '@nestjs/cache-manager';
-import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
-import { ProductsModule } from './products/products.module';
-import { CompaniesModule } from './companies/companies.module';
-import { OrdersModule } from './orders/orders.module';
+import { ConfigModule } from '@nestjs/config';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { TenantModule } from './tenant/tenant.module';
+
 
 @Module({
   imports: [
+    ConfigModule.forRoot(),
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'localhost',
       port: 3306,
       username: 'root',
-      password: '',
+      password: '123456',
       database: 'market',
       autoLoadEntities: true,
       synchronize: true,
     }),
-    CacheModule.register(),
-    ThrottlerModule.forRoot([{
-      ttl: 60000,
-      limit: 100,
-    }]),
-    UsersModule,
-    AuthModule,
-    ProductsModule,
-    CompaniesModule,
-    OrdersModule
+    TenantModule,
   ],
   controllers: [AppController],
-  providers: [
-    AppService,
-    {
-      provide: APP_GUARD,
-      useClass: AuthGuard
-    },
-    {
-      provide: APP_GUARD,
-      useClass: ThrottlerGuard
-    },
-  ],
+  providers: [AppService],
 })
-
-export class AppModule {
-  constructor(private dataSource: DataSource) {}
-}
+export class AppModule {}
