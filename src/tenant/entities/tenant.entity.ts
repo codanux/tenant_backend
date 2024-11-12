@@ -1,37 +1,48 @@
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { DataSourceOptions } from "typeorm";
+
+enum DataSourceType {
+    MYSQL = 'mysql',
+    POSTGRES = 'postgres',
+    MSSQL = 'mssql',
+}
 
 @Entity()
 export class Tenant {
     
-    @PrimaryGeneratedColumn()
+    @PrimaryGeneratedColumn('uuid')
     id: number;
 
     @Column()
     name: string;
 
-    @Column()
-    subdomain: string;
+    @Column({
+        type: 'enum',
+        enum: DataSourceType,
+        default: 'mysql',
+    })
+    type: string;
 
     @Column()
     database: string;
 
-    @Column()
+    @Column({
+        default: 'localhost',
+    })
     host: string;
 
-    @Column()
+    @Column({
+        default: 3306,
+    })
     port: number;
 
-    @Column()
+    @Column({
+        default: 'root',
+    })
     username: string;
 
     @Column()
     password: string;
-
-    @Column()
-    ssl: boolean;
-
-    @Column()
-    active: boolean;
 
     @CreateDateColumn()
     created_at: Date;
