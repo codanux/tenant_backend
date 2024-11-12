@@ -1,4 +1,4 @@
-import { Global, Module, Scope } from '@nestjs/common';
+import { Global, HttpException, Module, Scope } from '@nestjs/common';
 import { TenantService } from './tenant.service';
 import { TenantController } from './tenant.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -17,9 +17,9 @@ import { REQUEST } from '@nestjs/core';
       provide: 'CONNECTION',
       scope: Scope.REQUEST,
       useFactory: async (request: Request, service: TenantService) => {
-        const tenantId = request.headers['tenant-id'] || '888a3849-6c21-4c5b-b308-8cf4086d3c23'
+        const tenantId = request.headers['tenant']
         if (!tenantId) {
-          throw new Error('Tenant ID is required');
+          throw new HttpException('Tenant not found', 404);
         }
         return service.getDataSource(tenantId);
       },

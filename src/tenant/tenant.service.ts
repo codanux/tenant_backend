@@ -19,7 +19,7 @@ export class TenantService {
         return this.dataSources.get(tenantId);
       }
 
-      const tenant = await this.tenant.findOne({ where: { id: tenantId } });
+      const tenant = await this.tenant.findOne({ where: { slug: tenantId } });
       if (!tenant) {
         throw new HttpException('Tenant not found', 404);
       }

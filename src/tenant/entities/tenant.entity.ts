@@ -16,6 +16,9 @@ export class Tenant {
     @Column()
     name: string;
 
+    @Column()
+    slug: string;
+
     @Column({
         type: 'enum',
         enum: DataSourceType,
