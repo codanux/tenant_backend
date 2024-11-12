@@ -18,9 +18,17 @@ export class ProductsService {
     return this.productRepository.save(createProductDto);
   }
 
-  async findAll() {
+  async findAll(query) {
+    const { page = 1, itemsPerPage = 10, search } = query;
     const q = this.productRepository.createQueryBuilder('product')
-      .orderBy('product.id', 'DESC');
+      .skip((page - 1) * itemsPerPage)
+      .take(itemsPerPage)
+      .orderBy('product.id', 'DESC')
+
+    if (search) {
+      q.where('product.name LIKE :search OR product.description LIKE :search', { search: `%${search}%` });
+    }
+
     const [rows, count] = await q.getManyAndCount();
     return { rows, count };
   }

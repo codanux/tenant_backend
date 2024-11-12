@@ -13,6 +13,7 @@ export class CreateProductDto {
   @ApiProperty({ required: true })
   @IsNotEmpty()
   @IsNumber({
+    
   })
   price: number;
 
