@@ -19,7 +19,8 @@ export class ProductsService {
   }
 
   async findAll() {
-    const q = this.productRepository.createQueryBuilder('product');
+    const q = this.productRepository.createQueryBuilder('product')
+      .orderBy('product.id', 'DESC');
     const [rows, count] = await q.getManyAndCount();
     return { rows, count };
   }
