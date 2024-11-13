@@ -29,7 +29,11 @@ export class UsersService {
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+    const user = this.user.findOne({ where: { id } });
+    if (!user) {
+      return 'User not found';
+    }
+    return this.user.save({ ...user, ...updateUserDto });
   }
 
   remove(id: number) {
