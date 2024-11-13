@@ -18,8 +18,13 @@ export class UsersService {
     return this.user.save(createUserDto);
   }
 
-  async findAll() {
-    const q = this.user.createQueryBuilder('user');
+  async findAll(query) {
+    const { page = 1, itemsPerPage = 10 } = query;
+    const q = this.user.createQueryBuilder('user')
+      .skip((page - 1) * itemsPerPage)
+      .take(itemsPerPage)
+      .orderBy('user.id', 'DESC');
+
     const [rows, count] = await q.getManyAndCount();
     return { rows, count };
   }
