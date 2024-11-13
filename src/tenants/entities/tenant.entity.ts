@@ -10,7 +10,7 @@ enum DataSourceType {
 @Entity()
 export class Tenant {
     
-    @PrimaryGeneratedColumn('uuid')
+    @PrimaryGeneratedColumn()
     id: number;
 
     @Column()

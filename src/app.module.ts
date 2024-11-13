@@ -3,9 +3,9 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { TenantModule } from './tenant/tenant.module';
 import { UsersModule } from './users/users.module';
 import { ProductsModule } from './products/products.module';
+import { TenantsModule } from './tenants/tenants.module';
 
 
 @Module({
@@ -21,9 +21,10 @@ import { ProductsModule } from './products/products.module';
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
     }),
-    TenantModule,
+    TenantsModule,
     UsersModule,
     ProductsModule,
+    TenantsModule,
   ],
   controllers: [AppController],
   providers: [

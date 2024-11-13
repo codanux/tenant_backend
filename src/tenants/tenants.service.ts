@@ -1,12 +1,12 @@
-import { HttpException, Inject, Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { CreateTenantDto } from './dto/create-tenant.dto';
 import { UpdateTenantDto } from './dto/update-tenant.dto';
 import { DataSource, DataSourceOptions, Repository } from 'typeorm';
-import { InjectRepository } from '@nestjs/typeorm';
 import { Tenant } from './entities/tenant.entity';
-@Injectable()
-export class TenantService {
+import { InjectRepository } from '@nestjs/typeorm';
 
+@Injectable()
+export class TenantsService {
   private dataSources: Map<string, DataSource> = new Map();
 
   constructor(
@@ -44,19 +44,29 @@ export class TenantService {
     }
   }
 
-  async create(createTenantDto: CreateTenantDto) {
-    return this.tenant.save(createTenantDto);
+  
+  create(createTenantDto: CreateTenantDto) {
+    return 'This action adds a new tenant';
   }
 
-  findAll() {
-    return this.tenant.find();
+  async findAll(query) {
+    const { page = 1, itemsPerPage = 10 } = query;
+    const q = this.tenant.createQueryBuilder('tenant')
+      .take(itemsPerPage)
+      .skip((page - 1) * itemsPerPage)
+      .orderBy('tenant.id', 'DESC');
+
+    const [rows, count] = await q.getManyAndCount();
+    return {
+      rows,
+      count,
+    }
   }
 
   findOne(id: number) {
     return `This action returns a #${id} tenant`;
   }
 
-  
   update(id: number, updateTenantDto: UpdateTenantDto) {
     return `This action updates a #${id} tenant`;
   }
@@ -65,3 +75,4 @@ export class TenantService {
     return `This action removes a #${id} tenant`;
   }
 }
+

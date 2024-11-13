@@ -1,6 +1,6 @@
 import { Global, HttpException, Module, Scope } from '@nestjs/common';
-import { TenantService } from './tenant.service';
-import { TenantController } from './tenant.controller';
+import { TenantsService } from './tenants.service';
+import { TenantsController } from './tenants.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Tenant } from './entities/tenant.entity';
 import { REQUEST } from '@nestjs/core';
@@ -10,22 +10,22 @@ import { REQUEST } from '@nestjs/core';
   imports: [
     TypeOrmModule.forFeature([Tenant]),
   ],
-  controllers: [TenantController],
+  controllers: [TenantsController],
   providers: [
-    TenantService,
+    TenantsService,
     {
       provide: 'CONNECTION',
       scope: Scope.REQUEST,
-      useFactory: async (request: Request, service: TenantService) => {
+      useFactory: async (request: Request, service: TenantsService) => {
         const tenantId = request.headers['tenant']
         if (!tenantId) {
           throw new HttpException('Tenant not found', 404);
         }
         return service.getDataSource(tenantId);
       },
-      inject: [REQUEST, TenantService],
+      inject: [REQUEST, TenantsService],
     },
   ],
-  exports: [TenantService, 'CONNECTION']
+  exports: [TenantsService, 'CONNECTION']
 })
-export class TenantModule {}
+export class TenantsModule {}
