@@ -19,11 +19,15 @@ export class UsersService {
   }
 
   async findAll(query) {
-    const { page = 1, itemsPerPage = 10 } = query;
+    const { page = 1, itemsPerPage = 10, search } = query;
     const q = this.user.createQueryBuilder('user')
       .skip((page - 1) * itemsPerPage)
       .take(itemsPerPage)
       .orderBy('user.id', 'DESC');
+
+    if (search) {
+      q.where('user.name LIKE :search', { search: `%${search}%` });
+    }
 
     const [rows, count] = await q.getManyAndCount();
     return { rows, count };
