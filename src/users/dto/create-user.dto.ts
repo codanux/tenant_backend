@@ -10,11 +10,7 @@ export class CreateUserDto {
     @IsNotEmpty()
     email: string;
 
-    @ApiProperty()
-    password: string;
+    picture: string;
+    uid: string;
 
-    @ApiProperty()
-    role: string;
-
-    
 }

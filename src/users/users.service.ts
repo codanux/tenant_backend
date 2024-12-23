@@ -33,8 +33,8 @@ export class UsersService {
     return { rows, count };
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  findOne(email: string) {
+    return this.user.findOne({ where: { email } });
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
