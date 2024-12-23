@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { InovicesService } from './inovices.service';
 import { CreateInoviceDto } from './dto/create-inovice.dto';
 import { UpdateInoviceDto } from './dto/update-inovice.dto';
@@ -13,12 +13,12 @@ export class InovicesController {
   }
 
   @Get()
-  findAll() {
-    return this.inovicesService.findAll();
+  findAll(@Query() query: any) {
+    return this.inovicesService.findAll(query);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id') id: number) {
     return this.inovicesService.findOne(+id);
   }
 

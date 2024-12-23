@@ -47,6 +47,11 @@ export class Tenant {
     @Column()
     password: string;
 
+    @Column({
+        default: true,
+    })
+    active: boolean;
+
     @CreateDateColumn()
     created_at: Date;
 
@@ -55,5 +60,6 @@ export class Tenant {
 
     @DeleteDateColumn()
     deleted_at: Date;
+    
 
 }

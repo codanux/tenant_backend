@@ -2,7 +2,7 @@ import { HttpException, Injectable } from '@nestjs/common';
 import { CreateTenantDto } from './dto/create-tenant.dto';
 import { UpdateTenantDto } from './dto/update-tenant.dto';
 import { DataSource, DataSourceOptions, Repository } from 'typeorm';
-import { Tenant } from './entities/tenant.entity';
+import { Tenant } from './entities/tenant.entity.main';
 import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
@@ -31,9 +31,8 @@ export class TenantsService {
         username: tenant.username,
         password: tenant.password,
         database: tenant.database,
-        // TODO tenant entitiy ignore
         entities: ['dist/**/*.entity{.ts,.js}'],
-        synchronize: true,
+        synchronize: true
       };
       const dataSource = new DataSource(dataSourceOptions);
       await dataSource.initialize();
