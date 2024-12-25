@@ -10,7 +10,7 @@ export class TenantsService {
   private dataSources: Map<string, DataSource> = new Map();
 
   constructor(
-    @InjectRepository(Tenant) private tenant: Repository<Tenant>,
+    @InjectRepository(Tenant) private tenantRepository: Repository<Tenant>,
   ) {}
 
   async getDataSource(tenantId): Promise<DataSource> {
@@ -19,7 +19,7 @@ export class TenantsService {
         return this.dataSources.get(tenantId);
       }
 
-      const tenant = await this.tenant.findOne({ where: { slug: tenantId } });
+      const tenant = await this.tenantRepository.findOne({ where: { slug: tenantId } });
       if (!tenant) {
         throw new HttpException('Tenant not found', 404);
       }
@@ -45,12 +45,12 @@ export class TenantsService {
 
   
   create(createTenantDto: CreateTenantDto) {
-    return 'This action adds a new tenant';
+    return this.tenantRepository.save(createTenantDto);
   }
 
-  async findAll(query) {
+  async findAll(query: any) {
     const { page = 1, itemsPerPage = 10 } = query;
-    const q = this.tenant.createQueryBuilder('tenant')
+    const q = this.tenantRepository.createQueryBuilder('tenant')
       .take(itemsPerPage)
       .skip((page - 1) * itemsPerPage)
       .orderBy('tenant.id', 'DESC');
@@ -63,11 +63,17 @@ export class TenantsService {
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} tenant`;
+    return this.tenantRepository.findOne({ where: { id } });
   }
 
-  update(id: number, updateTenantDto: UpdateTenantDto) {
-    return `This action updates a #${id} tenant`;
+  async update(id: number, updateTenantDto: UpdateTenantDto) {
+    const tenant = await this.tenantRepository.findOne({ where: { id } });
+    if (!tenant) {
+      throw new HttpException('Tenant not found', 404);
+    }
+    Object.assign(tenant, updateTenantDto);
+    await this.tenantRepository.save(tenant);
+    return tenant;
   }
 
   remove(id: number) {
